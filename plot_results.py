@@ -174,7 +174,5 @@ def main() -> None:
     _plot_error_rate(PER_IT, save_path=os.path.join(save_folder, "PER_IT_ST.png"), streaming=True, punctuation=True, show=args.show)
     _plot_error_rate(PER_PT, save_path=os.path.join(save_folder, "PER_PT_ST.png"), streaming=True, punctuation=True, show=args.show)
 
-    _plot_cpu(save_folder=save_folder, show=args.show, dataset=Datasets.TED_LIUM)
-
 if __name__ == "__main__":
     main()

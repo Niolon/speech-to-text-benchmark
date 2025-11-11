@@ -76,6 +76,8 @@ class Engine(object):
             return WhisperLargeV2(language=language)
         elif x is Engines.WHISPER_LARGE_V3:
             return WhisperLargeV3(language=language)
+        elif x is Engines.WHISPER_LARGE_V3_TURBO:
+            return WhisperLargeV3Turbo(language=language)
         else:
             raise ValueError(f"Cannot create {cls.__name__} of type `{x}`")
 

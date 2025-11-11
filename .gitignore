@@ -2,5 +2,6 @@
 __pycache__/
 res/deepspeech/
 res/LibriSpeech
+results/
 venv
 transcription.txt
