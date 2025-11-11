@@ -80,50 +80,6 @@ class Engine(object):
             raise ValueError(f"Cannot create {cls.__name__} of type `{x}`")
 
 
-WordLatencyOutputType = Tuple[Sequence[str], Sequence[float], Sequence[float]]
-
-
-class StreamingEngine(Engine):
-    @property
-    def is_async(self) -> bool:
-        raise NotImplementedError()
-
-    async def _measure_word_latency_async(
-        self, path: str, alignments: Optional[Sequence[Tuple[float, float]]]
-    ) -> WordLatencyOutputType:
-        raise NotImplementedError()
-
-    def _measure_word_latency(
-        self, path: str, alignments: Optional[Sequence[Tuple[float, float]]]
-    ) -> WordLatencyOutputType:
-        raise NotImplementedError()
-
-    def measure_word_latency(
-        self, path: str, alignments: Optional[Sequence[Tuple[float, float]]]
-    ) -> WordLatencyOutputType:
-        if self.is_async:
-            return asyncio.run(self._measure_word_latency_async(path, alignments))
-        else:
-            return self._measure_word_latency(path, alignments)
-
-    def transcribe(self, path: str) -> str:
-        words, _, _ = self.measure_word_latency(path, alignments=None)
-        return " ".join(words)
-
-    def get_chunk_size_ms(self) -> int:
-        raise NotImplementedError()
-
-    def load_pcm(self, path: str) -> ByteString:
-        pcm, sample_rate = soundfile.read(path, dtype="int16")
-        if sample_rate != SAMPLE_RATE:
-            raise ValueError(f"Incorrect sample rate for `{path}`: expected {SAMPLE_RATE} got {sample_rate}")
-        return pcm.tobytes()
-
-    def get_chunk_size_bytes(self) -> int:
-        chunk_ms = self.get_chunk_size_ms()
-        return int((chunk_ms / 1000) * (SAMPLE_RATE * BYTES_PER_SAMPLE))
-
-
 class Whisper(Engine):
     LANGUAGE_TO_WHISPER_CODE = {
         Languages.EN: "en",
