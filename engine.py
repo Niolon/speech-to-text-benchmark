@@ -102,9 +102,9 @@ class Whisper(Engine):
         self._proc_sec = 0.0
 
     def transcribe(self, path: str) -> str:
-        audio, sample_rate = soundfile.read(path, dtype="int16")
-        assert sample_rate == SAMPLE_RATE
-        self._audio_sec += audio.size / sample_rate
+        info = soundfile.info(path)
+        assert info.samplerate == SAMPLE_RATE
+        self._audio_sec += info.frames / info.samplerate
 
         cache_path = path.replace(".flac", self._cache_extension)
         if os.path.exists(cache_path):
