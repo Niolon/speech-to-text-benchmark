@@ -26,7 +26,15 @@ class WhisperCppModel:
             raise ValueError(f"Model '{model}' is not supported in whisper.cpp adapter.")
 
     def transcribe(self, audio_path: str, language: str) -> dict[str, str]:
-        model_path = os.getenv("MODEL_PATH")
+        model_path = None
+        naming_options = ["MODEL_PATH", "MODELPATH", "MODEL_DIR", "MODELDIR"]
+        for env_var in naming_options:
+            model_path = os.getenv(env_var)
+            if model_path:
+                break
+        if not model_path:
+            raise EnvironmentError("Model path environment variable not set. Please set either 'MODEL_PATH' or 'MODELPATH'.")   
+
 
         whisper_options = [
             "--model",
