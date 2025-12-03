@@ -7,7 +7,7 @@ from typing import (
     Tuple
 )
 
-import soundfile
+#import soundfile
 
 from languages import Languages
 from normalizer import Normalizer
@@ -109,8 +109,8 @@ class CommonVoiceDataset(Dataset):
                             flac_path,
                         ]
                         subprocess.check_output(args)
-                    elif soundfile.read(flac_path)[0].size > 16000 * 60:
-                        continue
+                    #elif soundfile.read(flac_path)[0].size > 16000 * 60:
+                    #    continue
 
                     try:
                         transcript = normalizer.normalize(row["sentence"], raise_error_on_invalid_sentence=True)
@@ -396,8 +396,8 @@ class VoxPopuliDataset(Dataset):
                         flac_path,
                     ]
                     subprocess.check_output(args)
-                elif soundfile.read(flac_path)[0].size > 16000 * 60:
-                    continue
+                # elif soundfile.read(flac_path)[0].size > 16000 * 60:
+                #     continue
 
                 try:
                     data.append(
@@ -435,8 +435,8 @@ class VoxPopuliDataset(Dataset):
                         flac_path,
                     ]
                     subprocess.check_output(args)
-                elif soundfile.read(flac_path)[0].size > 16000 * 60:
-                    continue
+                #elif soundfile.read(flac_path)[0].size > 16000 * 60:
+                #    continue
 
                 transcript = row["raw_text"]
 
@@ -504,8 +504,8 @@ class FleursDataset(Dataset):
                         flac_path,
                     ]
                     subprocess.check_output(args)
-                elif soundfile.read(flac_path)[0].size > 16000 * 60:
-                    continue
+                #elif soundfile.read(flac_path)[0].size > 16000 * 60:
+                #     continue
 
                 try:
                     self._data.append(
